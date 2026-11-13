@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebDogApp.Core.Contracts;
+using WebDogApp.Core.Services;
 using WebDogApp.Infrastructure.Data;
+using WebDogApp.Infrastructure.Data.Infrastructure;
 
 namespace WebDogApp
 {
     public class Program
-
     {
         public static void Main(string[] args)
         {
@@ -27,13 +29,15 @@ namespace WebDogApp
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 5;
-
             })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddTransient<IBreedService, BreedService>();
+            builder.Services.AddTransient<IDogService, DogService>();
 
             var app = builder.Build();
+            app.PrepareDatabase();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
