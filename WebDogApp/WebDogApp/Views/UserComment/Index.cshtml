@@ -1,0 +1,33 @@
+﻿@model IEnumerable<WebDogApp.Models.UserComment.UserCommentIndexVM>
+
+@{
+    ViewData["Title"] = "User Comments";
+}
+
+<h1>User Comments</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Comment</a>
+</p>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No comments yet. Be the first to leave a comment!</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@Html.DisplayFor(modelItem => item.UserName)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Email)</h6>
+                        <p class="card-text mt-3">@Html.DisplayFor(modelItem => item.Comment)</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
